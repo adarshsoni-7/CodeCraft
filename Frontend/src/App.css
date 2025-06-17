@@ -1,0 +1,32 @@
+@font-face {
+  font-family: my_font;
+  src: url("./fonts/satoshi.ttf");
+}
+
+body {
+  font-family: my_font;
+}
+
+#option::before {
+  content: "";
+  position: absolute;
+  height: 1px;
+  background-color: rgb(198, 196, 196, 0.77);
+  width: 45%;
+  top: 45%;
+  left: 1%;
+
+}
+
+#option::after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  background-color: rgba(198, 196, 196, 0.77);
+  width: 45%;
+  top: 45%;
+  left: 55%;
+}
+
+ 
+ 
