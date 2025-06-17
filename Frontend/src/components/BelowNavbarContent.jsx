@@ -3,7 +3,7 @@ import React from 'react'
 const BelowNavbarContent = () => {
   return (
     <div>
-      <div className="h-min-[40vh] bg-[#e6e2e2e8] p-4 flex justify-between items-center py-28 mt-5 mb-36 relative -left-6  w-[98vw]">
+      <div className="h-min-[40vh] bg-[#e6e2e2e8] p-4 flex justify-between items-center py-28 -mt-3 mb-36 relative -left-6  w-[98vw]">
         <div>
           <h1 className="text-8xl font-extrabold w-[60%] my-5 tracking-tight">
             Global Stories & Articles

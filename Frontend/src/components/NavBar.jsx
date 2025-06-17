@@ -6,14 +6,8 @@ import useUser from "../context/useUser";
 const NavBar = () => {
     const { user } = useUser();
     const [showBanner, setShowBanner] = useState(true);
- 
-
-    
-
     const handleCloseBanner = () => {
         setShowBanner(false);
-        
-      
     };
     
     
@@ -66,13 +60,13 @@ const NavBar = () => {
           </NavLink>
         </div>
 
-        <div>
+        <div className="">
           <img
             className="h-12 w-12 rounded-full relative left-4"
             src={user?.profilePicture || "/default-avatar.png"}
             alt="Profile"
           />
-          <p className="text-lg font-medium">{user.fullname}</p>
+          <p className="text-sm font-medium absolute text-center">{user.fullname}</p>
         </div>
       </div>
     </div>
