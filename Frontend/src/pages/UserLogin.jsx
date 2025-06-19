@@ -22,7 +22,6 @@ const UserLogIn = () => {
         setEmail("");
         setPassword("");
         setUser(response.data.signedUser);
-        localStorage.setItem("justSignedUp", "true");
         navigate("/home");
       }
     } catch (error) {

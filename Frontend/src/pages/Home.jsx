@@ -1,8 +1,8 @@
 import BelowNavbarContent from "../components/BelowNavbarContent";
 import BlogCategories from "../components/BlogCategories";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/navbar/NavBar";
 import RecentPost from "../components/RecentPosts";
-import FeaturedPost from "../components/FeaturedPost"
+import FeaturedPost from "../components/FeaturedPost";
 import BottomContent from "../components/BottomContent";
 import SliderImagesAndFooter from "../components/SliderImagesAndFooter";
 
@@ -15,7 +15,7 @@ const Home = () => {
       <BlogCategories />
       <FeaturedPost />
       <BottomContent />
-      <SliderImagesAndFooter/>
+      <SliderImagesAndFooter />
     </div>
   );
 };

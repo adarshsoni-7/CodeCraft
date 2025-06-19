@@ -2,9 +2,10 @@
   font-family: my_font;
   src: url("./fonts/satoshi.ttf");
 }
+ 
 
 body {
-  font-family: my_font;
+  font-family: "Poppins", sans-serif;
 }
 
 #option::before {
@@ -28,5 +29,6 @@ body {
   left: 55%;
 }
 
+ 
  
  

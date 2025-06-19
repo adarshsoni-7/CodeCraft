@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useUser from "../context/useUser";
+ 
 
 const UserLogout = () => {
+  const {setUser} = useUser();
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -14,6 +17,7 @@ const UserLogout = () => {
       .then((res) => {
         if (res.status === 200) {
           localStorage.removeItem("token");
+          setUser(null);
           navigate("/login");
         }
       })

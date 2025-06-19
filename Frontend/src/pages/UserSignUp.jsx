@@ -28,7 +28,7 @@ const UserSignUp = () => {
         setPassword("");
         setUser(response.data.user); 
         localStorage.setItem("user", JSON.stringify(response.data));
-        localStorage.setItem("justSignedUp", "true");
+         
         navigate("/home");
       }
     } catch (error) {

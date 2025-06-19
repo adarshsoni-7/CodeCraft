@@ -268,7 +268,7 @@ const Footer = () => {
       <div className="flex justify-around items-start p-12 mb-32">
         <div>
           <img
-            className="h-[70vh] w-[70vh] rounded-xl"
+            className="h-[90vh] w-[90vh] rounded-xl"
             src="https://cdn.prod.website-files.com/6728d153e4ac58f8ba1fda95/672a147372c55de6169a2f69_about-thumb-1-p-500.jpg"
             alt=""
           />
@@ -279,17 +279,17 @@ const Footer = () => {
           </h2>
           <div className="flex gap-5">
             <img
-              className="h-[30vh] w-[30vh] rounded-xl"
+              className="h-[40vh] w-[40vh] rounded-xl"
               src="https://cdn.prod.website-files.com/6728d153e4ac58f8ba1fda95/672a1473cb653be56d4781fb_about-thumb-2-p-500.jpg"
               alt=""
             />
             <img
-              className="h-[30vh] w-[30vh] rounded-xl"
+              className="h-[40vh] w-[40vh] rounded-xl"
               src="https://cdn.prod.website-files.com/6728d153e4ac58f8ba1fda95/672a14734c670321eb7f6e4a_about-thumb-3-p-500.jpg"
               alt=""
             />
           </div>
-          <p className="w-[60vh] text-[13px] text-gray-500 font-medium mt-10">
+          <p className="w-[80vh] text-sm text-gray-500 font-medium mt-10">
             Where technology meets lifestyle and business insights. Our blog is
             dedicated to delivering the latest trends, informative articles, and
             expert opinions on a diverse range of topics.
