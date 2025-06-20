@@ -21,6 +21,7 @@ const UserLogIn = () => {
         localStorage.setItem("token", response.data.token);         
         setEmail("");
         setPassword("");
+        console.log(response.data.signedUser);
         setUser(response.data.signedUser);
         navigate("/home");
       }

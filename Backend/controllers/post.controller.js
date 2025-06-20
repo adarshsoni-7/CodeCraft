@@ -28,7 +28,8 @@ module.exports.publishPost = async (req, res) => {
 // To see the specific blog post by id
 module.exports.getSinglePost = async (req, res) => {
   try {
-    const post = await PostModel.findById(req.params.postId).populate("postedBy", "fullname profilePicture");
+    const post = await PostModel.findById(req.params.postId).populate("postedBy", "fullname profilePicture isAdmin"
+    );
 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
@@ -43,12 +44,27 @@ module.exports.getSinglePost = async (req, res) => {
 module.exports.getSinglePostByUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    const posts = await PostModel.find({ postedBy: userId }).populate("postedBy", "fullname email profilePicture").sort({ createdAt: -1 });
-      console.log(posts);
+
+    const posts = await PostModel.find({ postedBy: userId })
+      .populate("postedBy", "fullname  profilePicture")
+      .sort({ createdAt: -1 });
+
     res.status(200).json(posts);
-      
   } catch (error) {
     console.error("Error fetching user posts:", error);
     res.status(500).json({ message: "Server Error" });
+  }
+};
+
+module.exports.deletePost = async (req, res) => {
+   
+  try {
+    const post = await PostModel.findById(req.params.postId);
+
+    await post.deleteOne();
+
+   return res.status(200).json({ message: "Post deleted successfully" });
+  } catch (err) {
+    return res.status(500).json(err.message);
   }
 };

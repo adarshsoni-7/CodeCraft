@@ -10,11 +10,34 @@ const RecentPost = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/posts`);
+       
       setPosts(res.data);
     };
 
     fetchPosts();
   }, []);
+ 
+
+   const fetchView = async (postId) => {
+      try {
+        const token = localStorage.getItem("token"); // or from user context
+  
+        await axios.put(
+          `${import.meta.env.VITE_BASE_URL}/${postId}/view`,
+          {}, // empty body
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+  
+        const updatedPost = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/posts`
+        );
+        setPosts(updatedPost.data);
+      } catch (err) {
+        console.error("Failed to fetch views:", err);
+      }
+    };
+
+  
 
 
   const timeAgo = (dateString) => {
@@ -43,7 +66,11 @@ const RecentPost = () => {
           {" "}
           {/* Wrapper div for both left and right content */}
           {posts[0] && (
-            <Link  to={`/posts/${posts[0]._id}`} className="relative pb-4 h-[60vh]">
+            <Link
+              onClick={() => fetchView(posts._id)}
+              to={`/posts/${posts[0]._id}`}
+              className="relative pb-4 h-[60vh]"
+            >
               {" "}
               {/* Div of left side content */}
               <span className="absolute bg-white rounded-full   py-1 px-2 text-[#161515] text-[11px] m-2  tracking-wide">
@@ -68,7 +95,18 @@ const RecentPost = () => {
                     {new Date(posts[0].createdAt).toDateString()}
                   </span>
                   <i className="ri-time-line"></i>
-                  <span className="text-xs text-left mb-0">{timeAgo(posts[0].createdAt)}</span>
+                  <span className="text-xs text-left mb-0">
+                    {timeAgo(posts[0].createdAt)}
+                  </span>
+                  <i className="ri-calendar-line"></i>
+                  <span className="text-xs text-left mb-0">
+                    {posts[0].likes}{" "}
+                  </span>
+
+                  <i class="ri-eye-line"></i>
+                  <span className="text-xs text-left mb-0">
+                    {posts[0].views}
+                  </span>
                 </div>{" "}
               </div>
               <Link
@@ -84,7 +122,12 @@ const RecentPost = () => {
             {" "}
             {/* Wrapper div for right side content */}
             {posts.slice(1, 4).map((post) => (
-              <Link to={`/posts/${post._id}`} className="flex mb-6" key={post._id}>
+              <Link
+                onClick={() => fetchView(post._id)}
+                to={`/posts/${post._id}`}
+                className="flex mb-6"
+                key={post._id}
+              >
                 <span className="absolute bg-white rounded-lg p-[4px] text-[10px] m-2 tracking-wide">
                   {post.category}
                 </span>
@@ -104,6 +147,11 @@ const RecentPost = () => {
                     </span>
                     <i className="ri-time-line "></i>
                     <span className="text-xs">{timeAgo(post.createdAt)}</span>
+                    <i className="ri-heart-line"></i>
+                    <span className="text-xs text-left mb-0">{post.likes}</span>
+
+                    <i class="ri-eye-line"></i>
+                    <span className="text-xs text-left mb-0">{post.views}</span>
                   </div>
                   <Link
                     to={`/posts/${post._id}`}

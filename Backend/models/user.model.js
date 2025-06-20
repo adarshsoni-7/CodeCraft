@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
 
   isAdmin: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 
   createdAt: {
@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.genAuthToken = function () {
-  const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: this._id, isAdmin: this.isAdmin }, process.env.JWT_SECRET, {
     expiresIn: "24h",
   });
   return token;

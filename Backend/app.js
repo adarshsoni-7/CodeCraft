@@ -6,6 +6,8 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const UserRoutes = require("./routes/user.routes");
 const PostRoutes = require("./routes/post.routes");
+const ViewRoutes = require("./routes/like.route");
+const LikeRoutes = require("./routes/views.route");
 
 
 app.use(cors());
@@ -20,5 +22,7 @@ app.get("/", (req, res) => {
 
 app.use("/users", UserRoutes);
 app.use("/posts", PostRoutes);
+app.use("/:postId", ViewRoutes, LikeRoutes);
+ 
 
 module.exports = app;

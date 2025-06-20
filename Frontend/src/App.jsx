@@ -11,6 +11,7 @@ import CategoryPage from './components/navbar/CategoryPage'
 import AboutPage from './components/navbar/AboutPage'
 import ContactPage from './components/navbar/ContactPage'
 import CategoryPost from './components/CategoryPost'
+import DeletePost from './components/DeletePost'
 
  
 
@@ -19,18 +20,29 @@ function App() {
 
   return (
     <Routes>
-      <Route path={"/home"} element={<UserProtectedWrapper><Home/></UserProtectedWrapper> }></Route>
-      <Route path={"/signup"} element={<UserSignUp/>}></Route>
-      <Route path={"/login"} element={<UserLogIn/>}></Route>
-      <Route path={"/logout"} element={<UserLogout/>}></Route>
-      <Route path={"/posts/:postId"} element={<SinglePost/>}></Route>
-      <Route path={"/blogs"} element={<BlogPage/>}></Route>
-      <Route path={"/categories"} element={<CategoryPage/>}></Route>
-      <Route path={"/about"} element={<AboutPage/>}></Route>
-      <Route path={"/contact"} element={<ContactPage/>}></Route>
-      <Route path={"/category/:categoryName"} element={<CategoryPost/>}></Route>
+      <Route
+        path={"/home"}
+        element={
+          <UserProtectedWrapper>
+            <Home />
+          </UserProtectedWrapper>
+        }
+      ></Route>
+      <Route path={"/signup"} element={<UserSignUp />}></Route>
+      <Route path={"/login"} element={<UserLogIn />}></Route>
+      <Route path={"/logout"} element={<UserLogout />}></Route>
+      <Route path={"/posts/:postId/delete"} element={<DeletePost />}></Route>
+      <Route path={"/posts/:postId"} element={<SinglePost />}></Route>
+      <Route path={"/blogs"} element={<BlogPage />}></Route>
+      <Route path={"/categories"} element={<CategoryPage />}></Route>
+      <Route path={"/about"} element={<AboutPage />}></Route>
+      <Route path={"/contact"} element={<ContactPage />}></Route>
+      <Route
+        path={"/category/:categoryName"}
+        element={<CategoryPost />}
+      ></Route>
     </Routes>
-  )
+  );
 }
 
 export default App
