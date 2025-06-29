@@ -5,7 +5,7 @@ const SliderImagesAndFooter = () => {
     <div>
       {/* <h1 className='text-3xl font-extrabold text-center'>Follow us on @codecraft</h1> */}
       {/* This is the parent div of sliding images */}
-      <div>
+      {/* <div>
         <div>
           <img src="" alt="" />
           <div></div>
@@ -14,7 +14,7 @@ const SliderImagesAndFooter = () => {
           <img src="" alt="" />
           <div></div>
         </div>
-      </div>
+      </div> */}
 
       <div className="h-[110vh] relative bg-black flex justify-between items-end -left-6 w-[97vw] ">
         <div className="bg-white p-2 absolute rounded-xl -translate-x-2  -translate-y-40 object-cover rotate-[-15deg]">

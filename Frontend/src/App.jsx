@@ -12,22 +12,20 @@ import AboutPage from './components/navbar/AboutPage'
 import ContactPage from './components/navbar/ContactPage'
 import CategoryPost from './components/CategoryPost'
 import DeletePost from './components/DeletePost'
+import UserProfilePage from './components/UserProfilePage'
+import EditUserPage from './components/EditUserPage'
+import CreateBlog from './components/CreateBlog'
+import NotFound from './components/NotFound'
 
  
 
-function App() {
-  
-
+function App() { 
   return (
     <Routes>
-      <Route
-        path={"/home"}
-        element={
-          <UserProtectedWrapper>
-            <Home />
-          </UserProtectedWrapper>
-        }
-      ></Route>
+      <Route path= {"*"} element={<NotFound/>}></Route>
+      <Route path={"/"} element={<Home />}></Route>
+      <Route path={"/users/profile"} element={<UserProfilePage />}></Route>
+      <Route path={"/home"} element={<UserProtectedWrapper><Home /></UserProtectedWrapper>}></Route>
       <Route path={"/signup"} element={<UserSignUp />}></Route>
       <Route path={"/login"} element={<UserLogIn />}></Route>
       <Route path={"/logout"} element={<UserLogout />}></Route>
@@ -37,10 +35,10 @@ function App() {
       <Route path={"/categories"} element={<CategoryPage />}></Route>
       <Route path={"/about"} element={<AboutPage />}></Route>
       <Route path={"/contact"} element={<ContactPage />}></Route>
-      <Route
-        path={"/category/:categoryName"}
-        element={<CategoryPost />}
-      ></Route>
+      <Route path={"/category/:categoryName"} element={<CategoryPost />}></Route> 
+      <Route path={"/users/edit"} element={<EditUserPage />}></Route> 
+      <Route path={"/posts/publish"} element={<CreateBlog />}></Route> 
+        
     </Routes>
   );
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CategoriesButton from "../CategoriesButton";
 import axios from "axios";
+import usePost from "../../context/usePost";
 
 const categoryList = [
   "Hobbies",
@@ -18,7 +19,7 @@ const categoryList = [
 ];
 
 const CategoryPage = () => {
-  const [posts, setPosts] = useState([]);
+  const {post, setPost} = usePost();
   const [expandedCategories, setExpandedCategories] = useState({});
 
   const toggleCategory = (category) => {
@@ -33,7 +34,7 @@ const CategoryPage = () => {
       const allPosts = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/posts`
       );
-      setPosts(allPosts.data); // .data to get the actual array
+      setPost(allPosts.data); // .data to get the actual array
     };
     fetchCategoryWisePosts();
   }, []);
@@ -72,8 +73,8 @@ const CategoryPage = () => {
 
       {/* Posts Grouped by Category */}
       <div className="p-12">
-        {categoryList.map((category) => {
-          const filteredPosts = posts.filter(
+        {Array.isArray(post) && categoryList.map((category) => {
+          const filteredPosts = post.filter(
             (post) => post.category === category
           );
 
@@ -98,7 +99,7 @@ const CategoryPage = () => {
                   ? filteredPosts
                   : filteredPosts.slice(0, 3)
                 ).map((post) => (
-                  <div key={post._id} className="relative w-[60vh]">
+                  <Link to={`/posts/${post._id}`} key={post._id} className="relative w-[60vh]">
                     <span className="absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[11px] m-2 tracking-wide shadow-md">
                       {post.category}
                     </span>
@@ -116,7 +117,7 @@ const CategoryPage = () => {
                       <div className="flex items-center gap-3 text-sm text-gray-600">
                         <i className="ri-calendar-line"></i>
                         <span>
-                          {new Date(posts[0].createdAt).toDateString()}
+                          {new Date(post.createdAt).toDateString()}
                         </span>
                         <i className="ri-time-line ml-3"></i>
                         <span>{timeAgo(post.createdAt)}</span>
@@ -128,7 +129,7 @@ const CategoryPage = () => {
                         </button>
                       </Link>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

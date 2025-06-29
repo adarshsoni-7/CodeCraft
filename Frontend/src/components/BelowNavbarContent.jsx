@@ -1,6 +1,8 @@
 import React from 'react'
+import usePost from '../context/usePost';
 
 const BelowNavbarContent = () => {
+  const { post } = usePost();
   return (
     <div>
       <div className="h-min-[40vh] bg-[#e6e2e2e8] p-4 flex justify-between items-center py-28 -mt-3 mb-36 relative -left-6  w-[98vw]">
@@ -23,6 +25,7 @@ const BelowNavbarContent = () => {
             alt="random0=-design-img"
           />
           <p className="text-[14px] font-semibold my-2 mb-3">
+            <p>{post[0]?.likes == 1 ? "Hello": "Bhak!"}</p>
             How to get hired in 2025
           </p>
           <div className="flex items-center justify-between">

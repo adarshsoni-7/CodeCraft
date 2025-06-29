@@ -59,16 +59,16 @@ const NavBar = () => {
           </NavLink>
         </div>
 
-        <div className="">
+        <Link to={"/users/profile"}>
           <img
             className="h-12 w-12 rounded-full relative left-4"
             src={user?.profilePicture}
             alt="Profile"
           />
           <p className="text-sm font-medium absolute text-center">
-            {user.fullname}
+            {user?.fullname}
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );

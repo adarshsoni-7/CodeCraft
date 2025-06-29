@@ -1,11 +1,11 @@
 @font-face {
   font-family: my_font;
-  src: url("./fonts/satoshi.ttf");
+  src: url("./fonts/Satoshi-Variable.ttf");
 }
  
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: my_font;
 }
 
 #option::before {

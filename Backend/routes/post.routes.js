@@ -56,6 +56,8 @@ router.delete("/:postId/delete", AuthMiddleware.authUser, AdminMiddleware.isAdmi
 
 router.get("/:postId", PostController.getSinglePost);
 
+router.delete("/deleteAll", AuthMiddleware.authUser, PostController.deleteAllPosts);
+
  
 
 
