@@ -154,6 +154,9 @@ const SinglePost = () => {
             </button>
           </Link>
         )}
+        <span className="right-[24%] absolute bg-white rounded-full   py-1 px-2 text-[#161515] text-[11px] m-2  tracking-wide">
+                {post.category}
+              </span>
         <img
           src={post.coverImage || "/default-cover.jpg"}
           alt="Cover"
@@ -169,7 +172,7 @@ const SinglePost = () => {
             {post.likes}
           </span>
           <span className="mr-4">
-            <i className="ri-message-line mr-1 text-lg"></i>12
+           <Link to={`/posts/${post._id}/comments`}><i className="ri-message-line mr-1 text-lg"></i>{post.comments.length}</Link>  
           </span>
           <span>
             <i className="ri-time-line mr-1 text-lg"></i>

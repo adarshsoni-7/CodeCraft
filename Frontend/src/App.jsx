@@ -16,6 +16,7 @@ import UserProfilePage from './components/UserProfilePage'
 import EditUserPage from './components/EditUserPage'
 import CreateBlog from './components/CreateBlog'
 import NotFound from './components/NotFound'
+import CommentBlog from './components/CommentBlog'
 
  
 
@@ -38,6 +39,7 @@ function App() {
       <Route path={"/category/:categoryName"} element={<CategoryPost />}></Route> 
       <Route path={"/users/edit"} element={<EditUserPage />}></Route> 
       <Route path={"/posts/publish"} element={<CreateBlog />}></Route> 
+      <Route path={"/posts/:postId/comments"} element={<CommentBlog />}></Route> 
         
     </Routes>
   );

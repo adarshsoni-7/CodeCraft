@@ -1,4 +1,4 @@
-const mongoose  = require("mongoose");
+const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema(
   {
@@ -63,12 +63,20 @@ const postSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+
+    comments: [
+  {
+    text: { type: String, required: true },
+    commentedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  }
+]
+
   },
   {
     timestamps: true, // automatically adds createdAt and updatedAt fields
   }
 );
 
-const PostModel =  mongoose.model("Post", postSchema);
+const PostModel = mongoose.model("Post", postSchema);
 
-module.exports =  PostModel;
+module.exports = PostModel;

@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router({mergeParams: true});
 const { body } = require("express-validator");
 const AuthMiddleware = require("../middlewares/auth.middleware");
-const AdminMiddleware = require("../middlewares/isAdmin.middleware");
 const PostController = require("../controllers/post.controller");
 const PostModel = require("../models/post.model");
 const allowedCategories = [
@@ -52,7 +51,7 @@ router.post("/publish", [
   PostController.publishPost,
 ]);
 
-router.delete("/:postId/delete", AuthMiddleware.authUser, AdminMiddleware.isAdmin, PostController.deletePost);
+router.delete("/:postId/delete", AuthMiddleware.authUser,  PostController.deletePost);
 
 router.get("/:postId", PostController.getSinglePost);
 
