@@ -38,6 +38,16 @@ const userSchema = new mongoose.Schema({
     default: true,
   },
 
+  followers: {
+    type: Number,
+    default: 0,
+  },
+
+  followings: {
+    type: Number,
+    default: 0,
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,

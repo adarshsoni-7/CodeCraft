@@ -1,6 +1,7 @@
 import React from "react";
 import  usePost  from "../context/usePost";
 import { Link } from "react-router-dom";
+import timeAgo from "../utils/ExactTimeRead";
 
 const FeaturedPost = () => {
   const {post} = usePost();
@@ -23,11 +24,13 @@ const FeaturedPost = () => {
             <p className="text-xl font-semibold my-2 mb-3 w-[50vh]"> 
               {item.title}
             </p>
-            <div className="flex flex-wrap items-center justify-evenly w-[50vh]">
-              <i className="ri-calendar-line"></i>
-              <span className="text-xs text-left ml-0">{new Date(item.createdAt).toLocaleDateString()}</span>
+            <div className="flex flex-wrap items-center justify-evenly w-[35vh]">
+              <i className="ri-eye-line"></i>
+              <span className="text-xs text-left ml-0 mr-2">{item.views}</span>
+              <i className="ri-heart-fill text-red-500"></i>
+              <span className="text-xs text-left ml-0 mr-2">{item.likes}</span>
               <i className="ri-time-line"></i>
-              <span className="text-xs text-left ml-0">5 mins read</span>
+              <span className="text-xs text-left ml-0">{timeAgo(item.createdAt)} </span>
             </div>{" "}
             <button className=" my-6 tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-3 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
               Read More

@@ -43,12 +43,12 @@ module.exports.getSinglePost = async (req, res) => {
   }
 };
 
-module.exports.getSinglePostByUser = async (req, res) => {
+module.exports.getPostsByUser = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId  = req.params.userId;
 
     const posts = await PostModel.find({ postedBy: userId })
-      .populate("postedBy", "fullname  profilePicture")
+      .populate("postedBy")
       .sort({ createdAt: -1 });
 
     if (!posts || posts.length === 0) {
@@ -76,18 +76,25 @@ module.exports.deletePost = async (req, res) => {
 
 module.exports.deleteAllPosts = async (req, res) => {
   try {
-    const posts = await PostModel.find({});
+    
+    const userId = req.user._id;
+
+    const posts = await PostModel.find({ postedBy: userId });
+
     if (posts.length === 0) {
       return res.status(404).json({ message: "No posts found to delete" });
     }
-    const deletedPosts = await PostModel.deleteMany({});
+
+    const deletedPosts = await PostModel.deleteMany({ postedBy: userId });
+
     if (deletedPosts.deletedCount === 0) {
       return res.status(404).json({ message: "No posts found to delete" });
     }
+
     return res.status(200).json({ message: "All posts deleted successfully" });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Server Error", error: error.message });
+  } 
+  catch (error) {
+
+    return res.status(500).json({ message: "Server Error", error: error.message });
   }
 };

@@ -6,6 +6,7 @@ import UpdateEmail from "./UpdateEmail";
 import UpdatePassword from "./UpdatePassword";
 import WriteBio from "./WriteBio";
 import DeleteAllBlogs from "./DeleteAllBlogs";
+ 
 const EditUserPage = () => {
   const { user} = useUser();
   const [showBanner, setShowBanner] = useState(true);
@@ -83,9 +84,8 @@ const EditUserPage = () => {
         <form>
           <div>
             <UpdateUserName />            
-            <h5 className="font-medium text-xl my-4 tracking-wide">
-              Chnage Profile Photo
-            </h5>
+            
+            
            <UpdateEmail/>
            <UpdatePassword/>
             <WriteBio/>
@@ -93,9 +93,7 @@ const EditUserPage = () => {
               Notification Preferences
             </h5>
             <DeleteAllBlogs />
-            <h5 className="font-medium text-xl my-4 tracking-wide">
-              Delete Account
-            </h5>
+            <Link to={`/users`}><button className=" my-6   tracking-wide border border-red-400 text-lg font-semibold p-2 px-6 rounded-lg transition duration-300 hover:text-white hover:bg-red-600 disabled:opacity-60">Delete Account</button></Link>
           </div>
         </form>
        <Link to={"/users/profile"}><button className=" my-6   tracking-wide border border-red-400 text-lg font-semibold p-2 px-6 rounded-lg transition duration-300 hover:text-white hover:bg-red-600 disabled:opacity-60">Cancel</button></Link>  

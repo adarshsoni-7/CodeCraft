@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, NavLink } from "react-router-dom";
 import useUser from "../context/useUser";
+import timeAgo from "../utils/ExactTimeRead";
 
 const SinglePost = () => {
   const { postId } = useParams();
@@ -77,20 +78,7 @@ const SinglePost = () => {
     }
   };
 
-  const timeAgo = (dateString) => {
-    const now = new Date();
-    const postDate = new Date(dateString);
-    const diffInSeconds = Math.floor((now - postDate) / 1000);
-
-    if (diffInSeconds < 60) return "Just now";
-    const mins = Math.floor(diffInSeconds / 60);
-    if (mins < 60) return `${mins} min${mins === 1 ? "" : "s"} ago`;
-    const hours = Math.floor(mins / 60);
-    if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
-    const days = Math.floor(hours / 24);
-    return `${days} day${days === 1 ? "" : "s"} ago`;
-  };
-
+ 
   if (!post)
     return (
       <div className="flex justify-center items-center h-[60vh]">
@@ -147,13 +135,19 @@ const SinglePost = () => {
       </div>
       <div className="p-6 max-w-3xl mx-auto">
         <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-        {user?._id === post?.postedBy?._id && (
+        {user?._id === post?.postedBy?._id ?
           <Link to={`/posts/${postId}/delete`}>
-            <button className="absolute top-[8%] right-[25%] tracking-wider border-[1px] border-red-300 text-sm font-semibold p-3 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-red-600 ">
+            <button className="absolute top-[8%] right-[23%] tracking-wider border-[1px] border-red-300 text-sm font-semibold p-3 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-red-600 ">
               Delete
             </button>
-          </Link>
-        )}
+          </Link> : 
+           <Link to={`/posts/${postId}/follow`}>
+            <button className="absolute top-[8%] right-[23%] tracking-wider border-[1px] border-blue-300 text-sm font-semibold p-3 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-blue-600 ">
+              Follow
+            </button>
+          </Link> 
+
+        }
         <span className="right-[24%] absolute bg-white rounded-full   py-1 px-2 text-[#161515] text-[11px] m-2  tracking-wide">
                 {post.category}
               </span>

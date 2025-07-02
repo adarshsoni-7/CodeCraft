@@ -1,6 +1,6 @@
 @font-face {
   font-family: my_font;
-  src: url("./fonts/Satoshi-Variable.ttf");
+  src: url("./fonts/font.ttf");
 }
  
 
@@ -28,6 +28,7 @@ body {
   top: 45%;
   left: 55%;
 }
+
 
  
  

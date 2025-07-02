@@ -188,7 +188,7 @@ module.exports.updateBio = async (req, res) => {
 
   try {
     const { bio } = req.body;
-     
+
     const userId = req.user._id;
 
     const updatedUserByBio = await UserModel.findByIdAndUpdate(
@@ -196,13 +196,34 @@ module.exports.updateBio = async (req, res) => {
       { bio },
       { new: true, runValidators: true }
     );
-     
 
     res.status(200).json({
       message: "Bio updated successfully",
-      updatedUserByBio
+      updatedUserByBio,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
+
+module.exports.deleteUser = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await user.deleteOne();
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
+
+module.exports.followUser = async (req, res) => {
+   
+}

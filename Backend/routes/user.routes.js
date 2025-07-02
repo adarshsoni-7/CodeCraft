@@ -3,6 +3,7 @@ const router = express.Router({mergeParams: true});
 const { body } = require("express-validator");
 const UserController = require("../controllers/user.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
+const PostController = require("../controllers/post.controller");
  
 
 router.post(
@@ -41,6 +42,8 @@ router.post(
 router.get("/profile", authMiddleware.authUser, UserController.getUserProfile);
 
 router.get("/logout", authMiddleware.authUser, UserController.logoutUser);
+
+router.get("/:userId/posts", authMiddleware.authUser, PostController.getPostsByUser);
 
 router.patch(
   "/:userId/username",
@@ -94,5 +97,10 @@ router.patch(
   authMiddleware.authUser,
   UserController.updateBio
 );
+
+router.delete("/:userId/delete", authMiddleware.authUser, UserController.deleteUser);
+
+
+router.post("/followUser", authMiddleware.authUser, UserController.followUser)
 
 module.exports = router;

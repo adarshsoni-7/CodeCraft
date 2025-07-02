@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSendingEmail = async (e) => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/email/subscribe`,
+        { email },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.status == 200) {
+        console.log("Email sent successfully");
+        setEmail("");
+        navigate("/home");
+      }
+    } catch (error) {
+      console.log("Error sending email");
+    }
+
+    finally {
+      setLoading(false);
+    }
+  };
   return (
     <div>
       <div className="h-min-[40vh] bg-black px-14 flex justify-between items-center py-28 mt-5 mb-28 rounded-2xl relative">
@@ -12,14 +45,28 @@ const Footer = () => {
             Regular updates ensure that readers have access to fresh
             perspectives, making Poster a must-read.
           </p>
-          <button className="bg-[#1d1c1c] text-white left-[25%] bottom-[26%] absolute tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold  p-2 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
-            Submit
-          </button>
-          <input
-            className="px-5 py-4 w-1/2 rounded-xl"
-            type="email"
-            placeholder="Email address"
-          />
+          {loading ? (
+            <div className=" absolute flex flex-col items-center right-[69%] top-[65%]">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-yellow-500"></div>
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={handleSendingEmail}
+                className="bg-[#1d1c1c] text-white left-[25%] bottom-[26%] absolute tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black"
+              >
+                Submit
+              </button>
+             
+            </>
+          )}
+            <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="px-5 py-4 w-1/2 rounded-xl focus:outline-none"
+                type="email"
+                placeholder="Email address"
+              />
         </div>
 
         <div className="bg-white p-4 absolute right-20 z-30 rounded-xl">
@@ -91,14 +138,6 @@ const Footer = () => {
           </div>{" "}
         </div>
       </div>
-
-       
-
-
-
-
-
-
 
       <div className="flex justify-around items-start p-12 mb-32">
         <div>

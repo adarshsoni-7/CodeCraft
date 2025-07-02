@@ -17,6 +17,8 @@ import EditUserPage from './components/EditUserPage'
 import CreateBlog from './components/CreateBlog'
 import NotFound from './components/NotFound'
 import CommentBlog from './components/CommentBlog'
+import DeleteAccount from './components/DeleteAccount'
+import ShowRemainingPosts from './components/ShowRemainingPosts'
 
  
 
@@ -40,7 +42,9 @@ function App() {
       <Route path={"/users/edit"} element={<EditUserPage />}></Route> 
       <Route path={"/posts/publish"} element={<CreateBlog />}></Route> 
       <Route path={"/posts/:postId/comments"} element={<CommentBlog />}></Route> 
-        
+      <Route path={"/users/:userId/delete"} element={<DeleteAccount />}></Route> 
+      <Route path={"/show/posts"} element={<ShowRemainingPosts />}></Route> 
+
     </Routes>
   );
 }

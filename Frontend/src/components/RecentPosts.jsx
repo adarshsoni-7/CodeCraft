@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import usePost from '../context/usePost';
+import timeAgo from '../utils/ExactTimeRead';
+
 
 
 const RecentPost = () => {
@@ -39,23 +41,6 @@ const RecentPost = () => {
       }
     };
 
-  
-
-
-  const timeAgo = (dateString) => {
-    const now = new Date();
-    const postDate = new Date(dateString);
-    const diffInSeconds = Math.floor((now - postDate) / 1000);
-
-    if (diffInSeconds < 60) return "Just now";
-    const mins = Math.floor(diffInSeconds / 60);
-    if (mins < 60) return `${mins} min${mins === 1 ? "" : "s"} ago`;
-    const hours = Math.floor(mins / 60);
-    if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
-    const days = Math.floor(hours / 24);
-    return `${days} day${days === 1 ? "" : "s"} ago`;
-  };
-
   return (
     <div>
       <div className="min-h-[100vh] mb-14">
@@ -89,34 +74,32 @@ const RecentPost = () => {
                 </p>
                 <div className="flex flex-wrap items-center justify-evenly w-[80vh]">
                   <i className="ri-user-line"></i>
-                  <span className="text-xs text-left ml-0">
+                  <span className="text-xs text-left -ml-12   ">
                     {post[0].postedBy?.fullname}
                   </span>
-                  <i className="ri-calendar-line"></i>
-                  <span className="text-xs text-left ml-0">
-                    {new Date(post[0].createdAt).toDateString()}
-                  </span>
-                  <i className="ri-time-line"></i>
-                  <span className="text-xs text-left mb-0">
+                   
+                  <i className="ri-time-line -ml-2"></i>
+                  <span className="text-xs text-left mb-0 -ml-12">
                     {timeAgo(post[0].createdAt)}
                   </span>
-                  <i className="ri-heart-line"></i>
-                  <span className="text-xs text-left mb-0">
+                  <i className="ri-heart-line -ml-4"></i>
+                  <span className="text-xs text-left mb-0 -ml-12">
                     {post[0].likes}{" "}
                   </span>
 
-                  <i class="ri-eye-line"></i>
-                  <span className="text-xs text-left mb-0">
+                  <i className="ri-eye-line -ml-4"></i>
+                  <span className="text-xs text-left mb-0 -ml-12">
                     {post[0].views}
                   </span>
                 </div>{" "}
               </div>
               <Link
                 to={`/posts/${post[0]._id}`}
-                className=" absolute -bottom-[16%] tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-3 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black"
+                 
               >
-                Read More
-                <i className="ri-arrow-right-fill text-[13px] ml-1"></i>
+                <button className="absolute -bottom-[22%] tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-3 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">Read More <i className="   ri-arrow-right-fill text-[13px] ml-1"></i></button>
+                 
+                
               </Link>
             </Link>
           )}

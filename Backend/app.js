@@ -10,6 +10,7 @@ const PostRoutes = require("./routes/post.routes");
 const ViewRoutes = require("./routes/like.route");
 const LikeRoutes = require("./routes/views.route");
 const CommentRoutes = require("./routes/comment.routes");
+const EmailRoutes = require("./routes/email.routes");
 
 
 app.use(cors());
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 app.use("/users", UserRoutes);
 app.use("/posts", PostRoutes);
 app.use("/:postId", ViewRoutes, LikeRoutes, CommentRoutes);
+app.use("/email", EmailRoutes);
 
 
 module.exports = app;

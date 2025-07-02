@@ -15,7 +15,7 @@ const DeleteAllBlogs = () => {
     );
     setPost(deletedBlogs.data);
    
-    navigate("/blogs");
+    navigate("/home");
   };
 
   return (
