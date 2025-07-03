@@ -17,7 +17,7 @@ const DeletePost = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      navigate("/categories");
+      navigate("/home");
     } catch (err) {
       console.error("Error deleting post:", err);
       navigate(`/error`);

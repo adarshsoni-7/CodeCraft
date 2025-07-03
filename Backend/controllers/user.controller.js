@@ -224,6 +224,45 @@ module.exports.deleteUser = async (req, res) => {
 
 
 
-module.exports.followUser = async (req, res) => {
-   
+module.exports.followUser = async (req, res) => {  
+  try {
+
+    const targetUserId = req.params.userId;
+    const currentUserId = req.user._id;
+
+
+    if(targetUserId === currentUserId) {
+      return res.status(400).json({ message: "You cannot follow yourself." });
+    }
+
+
+    // Make sure user exists
+    const targetUser = await UserModel.findById(targetUserId);
+
+    if(!targetUser) {
+      return res.status(400).json({ message: "User not found." });
+    }
+
+
+    // Check if already following
+    if(targetUser.followers.includes(currentUserId)) {
+      return res.status(400).json({ message: "You already follow this user" });
+    }
+
+
+    // Add follower to the target user
+    await UserModel.findByIdAndUpdate(targetUserId, {$addToSet: {followers: currentUserId}});
+
+
+    // Add following to the current user
+    await UserModel.findByIdAndUpdate(currentUserId, {$addToSet: {followings: targetUserId}});
+
+    console.log(targetUser)
+     res.status(200).json({ message: "Successfully followed the user"});
+  } 
+
+  catch(error) {
+    console.log("Error following user:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
 }

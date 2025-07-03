@@ -38,15 +38,19 @@ const userSchema = new mongoose.Schema({
     default: true,
   },
 
-  followers: {
-    type: Number,
-    default: 0,
-  },
+  followers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 
-  followings: {
-    type: Number,
-    default: 0,
-  },
+  followings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 
   createdAt: {
     type: Date,
@@ -55,7 +59,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.genAuthToken = function () {
-  const token = jwt.sign({ id: this._id, isAdmin: this.isAdmin }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: "24h",
   });
   return token;

@@ -5,6 +5,7 @@ import { useState } from "react";
 import timeAgo from "../utils/ExactTimeRead";
 import axios from "axios";
 import { useEffect } from "react";
+import usePost from "../context/usePost";
 
 const UserProfilePage = () => {
   const [showBanner, setShowBanner] = useState(true);
@@ -12,7 +13,9 @@ const UserProfilePage = () => {
     setShowBanner(false);
   };
   const { user } = useUser();
+  const {post} = usePost();
   const [userPosts, setUserPosts] = useState([]);
+  const totalViews = userPosts.reduce((acc, post) => acc + (post.viewedBy?.length || 0), 0);
 
   useEffect(() => {
     if (!user?._id) return;
@@ -110,13 +113,13 @@ const UserProfilePage = () => {
             </div>
 
             <div className="mt-8 absolute left-[25%]">              
-                <span className="text-sm font-medium mr-8 p-1 px-4 rounded-lg border-[1px] border-gray-200 text-black ">Followers</span>{" "}
-                <span className="text-sm font-medium mr-8 p-1 px-4 rounded-lg border-[1px] border-gray-200 text-black ">Following</span>{" "} 
-                <span className="text-sm font-medium mr-8 p-1 px-4 rounded-lg border-[1px] border-gray-200 text-black ">Views Reached</span>{" "} 
+                <span className="tracking-wide text-sm font-semibold mr-8 p-1 px-4 rounded-lg text-black ">Followers</span>{" "}
+                <span className="tracking-wide text-sm font-semibold mr-8 p-1 px-4 rounded-lg text-black ">Following</span>{" "} 
+                <span className="tracking-wide text-sm font-semibold mr-8 p-1 px-4 rounded-lg text-black ">Views Reached</span>{" "} 
                  <div>
-                  <span className=" absolute font-medium text-[15px] left-[8%]  my-4 ">332 M</span>
-                  <span className=" absolute font-medium text-[15px] left-[39%] my-4  ">10</span>
-                  <span className=" absolute font-medium text-[15px] left-[74%]  my-4 ">32.1 B</span>
+                  <span className=" absolute font-medium text-[16px] left-[8%]  my-4 ">{user?.followers.length}</span>
+                  <span className=" absolute font-medium text-[16px] left-[39%] my-4  ">{user?.followings.length}</span>
+                  <span className=" absolute font-medium text-[16px] left-[74%]  my-4 ">{totalViews}</span>
                    
                   </div>     
             </div>
@@ -135,22 +138,22 @@ const UserProfilePage = () => {
           <p className="text-sm text-gray-800 w-[40%] ">{user?.bio}</p>
         </div>
 
-        <div className="w-[50%]">
-          <h4 className="font-semibold text-2xl mt-6">Your Articles</h4>
+        <div className="w-[50%]"> 
+          <h4 className="font-semibold text-2xl mt-6  ">Your Articles</h4>
           {}
-          <div className="flex gap-4 flex-wrap relative my-12">
+          <div className="flex gap-[55vh] flex-wrap relative my-12">
             {userPosts.slice(0, 2).map((article) => (
               <Link to={`/posts/${article._id}`} key={article._id}>
                 <div
                   key={article._id}
-                  className="border-[1px] border-gray-200 p-4 rounded-lg w-[250px]"
+                  className="w-[50%] absolute"
                 >
-                  <span className="absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[11px] m-2 tracking-wide">
+                  <span className="absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[10px] m-2 tracking-wider z-20 font-semibold">
                     {article?.category}
                   </span>
                   {article.coverImage && (
                     <img
-                      className="rounded-lg h-[150px] w-full object-cover"
+                      className="rounded-lg h-[200px] w-full object-cover transition-transform hover:scale-[1.1]"
                       src={article.coverImage}
                       alt="Cover"
                     />
@@ -172,6 +175,7 @@ const UserProfilePage = () => {
                       <span className="text-xs text-left ml-0 ">
                         {timeAgo(article.createdAt)}
                       </span>
+                      
                     </div>
                     <button className="my-4 tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-3 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
                       Read More
@@ -182,9 +186,9 @@ const UserProfilePage = () => {
               </Link>
             ))}
 
-            {userPosts.length > 4 && (
+            {userPosts.length > 2 && (
               <Link to={"/show/posts"}>
-                <button className="-top-16 right-[16%] absolute my-4 tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-4 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
+                <button className="-top-20 -right-[2%] absolute my-4 tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-4 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
                   View All Articles
                   <i className="ri-arrow-right-fill text-[13px] ml-1"></i>
                 </button>

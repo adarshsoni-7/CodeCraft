@@ -7,16 +7,15 @@ import timeAgo from "../utils/ExactTimeRead";
 
 const SinglePost = () => {
   const { postId } = useParams();
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const [post, setPost] = useState(null);
 
- useEffect(() => {
-  const fetchPostAndView = async () => {
-    if (!postId) {
-      console.error("postId is undefined!");
-      return;
-    }
+  useEffect(() => {
+  const fetchPostAndIncrementView = async () => {
+    if (!postId) return;
+
     const token = localStorage.getItem("token");
+
     try {
       await axios.put(
         `${import.meta.env.VITE_BASE_URL}/${postId}/view`,
@@ -24,33 +23,24 @@ const SinglePost = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
     } catch (err) {
-      // If the error is due to already viewed, we can skip incrementing views
-      // Otherwise, log the error
-      console.error("Error updating view count:", err);
-      // Check if the error is due to already viewed
       if (
-        err.response &&
-        err.response.data &&
-        err.response.data.message === "You already viewed this blog"
+        err.response?.data?.message !== "You already viewed this blog"
       ) {
-        console.log("Already viewed, skipping increment.");
-      } else {
-        console.error("View update failed:", err.response?.data || err.message);
+        console.error("Error incrementing view:", err);
       }
     }
 
-    // Fetch the post details after updating the view count
     try {
       const res = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/posts/${postId}`
       );
       setPost(res.data);
     } catch (err) {
-      console.error("Failed to fetch post:", err.response?.data || err.message);
+      console.error("Error fetching post:", err);
     }
   };
 
-  fetchPostAndView();
+  fetchPostAndIncrementView();
 }, [postId]);
 
   const fetchLike = async () => {
@@ -78,13 +68,39 @@ const SinglePost = () => {
     }
   };
 
- 
   if (!post)
     return (
       <div className="flex justify-center items-center h-[60vh]">
         <div className="w-10 h-10 border-[1.5px] border-gray-400 border-t-black rounded-full animate-spin"></div>
       </div>
     );
+
+  const handleFollowButton = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/${post?.postedBy?._id}/follow`,
+        {}, // Empty body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Follow response:", res.data);
+       setUser((prev) => ({
+      ...prev,
+      followings: [...prev.followings, post?.postedBy?._id],
+    }));
+    } catch (error) {
+      console.error("Error following user:", error.response?.data || error);
+    }
+
+     
+  }
 
   return (
     <div className="relative">
@@ -121,7 +137,7 @@ const SinglePost = () => {
               Contact
             </NavLink>
           </div>
-          <div className="absolute right-4">
+          <Link to={"/users/profile"} className="absolute right-4">
             <img
               className="h-12 w-12 rounded-full relative"
               src={user?.profilePicture || "/default-profile.jpg"}
@@ -130,43 +146,46 @@ const SinglePost = () => {
             <p className="text-xs font-medium absolute text-center">
               {user?.fullname}
             </p>
-          </div>
+          </Link>
         </div>
       </div>
-      <div className="p-6 max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
-        {user?._id === post?.postedBy?._id ?
+      <div className="p-6 max-w-3xl mx-auto relative h-[100vh]">
+        <h1 className="text-xl font-bold mb-2 w-[80%]">{post.title}</h1>
+        {user?._id === post?.postedBy?._id ? (
           <Link to={`/posts/${postId}/delete`}>
-            <button className="absolute top-[8%] right-[23%] tracking-wider border-[1px] border-red-300 text-sm font-semibold p-3 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-red-600 ">
+            <button className="absolute top-[3%] right-[5%] tracking-wider border-[1px] border-red-300 text-sm font-semibold p-3 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-red-600 ">
               Delete
             </button>
-          </Link> : 
-           <Link to={`/posts/${postId}/follow`}>
-            <button className="absolute top-[8%] right-[23%] tracking-wider border-[1px] border-blue-300 text-sm font-semibold p-3 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-blue-600 ">
-              Follow
-            </button>
-          </Link> 
-
-        }
-        <span className="right-[24%] absolute bg-white rounded-full   py-1 px-2 text-[#161515] text-[11px] m-2  tracking-wide">
-                {post.category}
-              </span>
+          </Link>
+        ) : (
+          <button onClick={handleFollowButton} className="absolute top-[8%] right-[23%] tracking-wider border-[1px] border-blue-300 text-sm font-semibold p-3 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-blue-600 ">
+            {user?.followings ?.includes(post?.postedBy?._id) ? "Following" : "Follow"}
+          </button>
+        )}
+        <span className="right-[22%] top-[19%] absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[11px] m-2 tracking-wide">
+          {post.category}
+        </span>
         <img
           src={post.coverImage || "/default-cover.jpg"}
           alt="Cover"
-          className="rounded-xl mb-6 w-full object-cover max-h-[400px]"
+          className="rounded-xl mb-6  h-[50%] w-[80%] object-cover mt-[7vh]"
         />
         <div className="flex gap-4 text-sm text-gray-600 mb-4">
           <span onClick={fetchLike} className="mr-4 cursor-pointer">
             <i
               className={`mr-1 text-lg ${
-                post?.likedBy.includes(user?._id) ? "ri-heart-fill text-red-500" : "ri-heart-line"
+                post?.likedBy.includes(user?._id)
+                  ? "ri-heart-fill text-red-500"
+                  : "ri-heart-line"
               }`}
             ></i>
             {post.likes}
           </span>
           <span className="mr-4">
-           <Link to={`/posts/${post._id}/comments`}><i className="ri-message-line mr-1 text-lg"></i>{post.comments.length}</Link>  
+            <Link to={`/posts/${post._id}/comments`}>
+              <i className="ri-message-line mr-1 text-lg"></i>
+              {post.comments.length}
+            </Link>
           </span>
           <span>
             <i className="ri-time-line mr-1 text-lg"></i>
