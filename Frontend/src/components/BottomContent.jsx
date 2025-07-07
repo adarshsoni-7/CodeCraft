@@ -35,8 +35,8 @@ const Footer = () => {
     }
   };
   return (
-    <div>
-      <div className="h-min-[40vh] bg-black px-14 flex justify-between items-center py-28 mt-5 mb-28 rounded-2xl relative">
+    <div className="overflow-x-hidden">
+      <div className="h-[70vh] bg-black px-14 flex justify-between items-center mt-5 mb-28   relative w-screen">
         <div>
           <h1 className="text-4xl font-extrabold w-[60%] my-5 tracking-tight text-white">
             Join the community — Get Updates and Tips
@@ -53,7 +53,7 @@ const Footer = () => {
             <>
               <button
                 onClick={handleSendingEmail}
-                className="bg-[#1d1c1c] text-white left-[25%] bottom-[26%] absolute tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black"
+                className="bg-[#1d1c1c] text-white left-[22%] bottom-[28%] absolute tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black"
               >
                 Submit
               </button>

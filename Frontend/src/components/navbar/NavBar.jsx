@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import useUser from "../../context/useUser";
 
-const NavBar = () => {
+const NavBar = ({setNewsletterPanel}) => {
   const { user } = useUser();
   const [showBanner, setShowBanner] = useState(true);
   const handleCloseBanner = () => {
@@ -10,15 +10,14 @@ const NavBar = () => {
   };
 
   return (
-    <div className="relative -top-10 -left-10 w-screen mt-4">
+    <div className="overflow-hidden">
+        <div className="relative -top-4  w-screen mt-4">
       {showBanner && (
-        <div className="text-xs p-2 text-center bg-black text-white font-semibold relative w-full left-0 tracking-wider">
-          Get weekly updates with our{" "}
-          <Link to={"/newsletter"} className="underline">
-            Newsletter
-          </Link>
+        <div className="text-xs p-2 text-center bg-black text-white font-semibold relative w-full left-0 tracking-wider pt-2">
+          Get weekly updates with our <span onClick={() => setNewsletterPanel(true)} className="underline cursor-pointer">Newsletter</span> 
+          
           <i
-            className="ri-close-large-line absolute right-4 text-xs cursor-pointer"
+            className="ri-close-large-line absolute right-12 text-xs cursor-pointer"
             onClick={handleCloseBanner}
           ></i>
         </div>
@@ -71,6 +70,8 @@ const NavBar = () => {
         </Link>
       </div>
     </div>
+    </div>
+   
   );
 };
 

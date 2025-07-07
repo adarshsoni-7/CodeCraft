@@ -14,7 +14,7 @@ const AboutPage = () => {
         <h1 className="text-8xl font-extrabold tracking-tight my-5">
           About CodeCraft
         </h1>
-        <p className="text-lg font-semibold tracking-wide w-[62%]">
+        <p className="text-lg   tracking-wide w-[62%]">
           At CodeCraft, we believe that knowledge fuels creativity. Our blog is
           designed to inspire and educate, offering deep dives into design
           techniques.

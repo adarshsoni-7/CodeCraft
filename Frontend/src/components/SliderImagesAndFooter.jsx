@@ -2,7 +2,7 @@ import React from "react";
 
 const SliderImagesAndFooter = () => {
   return (
-    <div>
+    <div className="overflow-hidden">
       {/* <h1 className='text-3xl font-extrabold text-center'>Follow us on @codecraft</h1> */}
       {/* This is the parent div of sliding images */}
       {/* <div>
@@ -16,7 +16,7 @@ const SliderImagesAndFooter = () => {
         </div>
       </div> */}
 
-      <div className="h-[110vh] relative bg-black flex justify-between items-end -left-6 w-[97vw] ">
+      <div className="h-[110vh] relative bg-black flex justify-between items-end   w-screen ">
         <div className="bg-white p-2 absolute rounded-xl -translate-x-2  -translate-y-40 object-cover rotate-[-15deg]">
           <span className="absolute bg-white rounded-full py-1 px-2 text-[#403f3f] text-[11px] m-2 font-semibold tracking-wide">
             Entertainment

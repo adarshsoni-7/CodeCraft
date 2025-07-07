@@ -43,7 +43,7 @@ const RecentPost = () => {
 
   return (
     <div>
-      <div className="min-h-[100vh] mb-14">
+      <div className="min-h-[100vh] mb-14 p-8">
         {" "}
         {/* Wrapper div for wrapper div of left and right content*/}
         <h1 className="w-full text-3xl font-extrabold tracking-tight recent-head">
@@ -53,9 +53,9 @@ const RecentPost = () => {
           {" "}
           {/* Wrapper div for both left and right content */}
           {post[0] && (
-            <Link
+            <div
               onClick={() => fetchView(post._id)}
-              to={`/posts/${post[0]._id}`}
+              
               className="relative pb-4 h-[60vh]"
             >
               {" "}
@@ -101,15 +101,14 @@ const RecentPost = () => {
                  
                 
               </Link>
-            </Link>
+            </div>
           )}
           <div className="">
             {" "}
             {/* Wrapper div for right side content */}
             {Array.isArray(post) && post?.slice(1, 4).map((p) => (
-              <Link
+              <div
                 onClick={() => fetchView(p._id)}
-                to={`/posts/${p._id}`}
                 className="flex mb-6"
                 key={p._id}
               >
@@ -135,7 +134,7 @@ const RecentPost = () => {
                     <i className="ri-heart-line"></i>
                     <span className="text-xs text-left mb-0">{p.likes}</span>
 
-                    <i class="ri-eye-line"></i>
+                    <i className="ri-eye-line"></i>
                     <span className="text-xs text-left mb-0">{p.views}</span>
                   </div>
                   <Link
@@ -146,7 +145,7 @@ const RecentPost = () => {
                     <i className="ri-arrow-right-fill text-[13px] ml-1"></i>
                   </Link>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

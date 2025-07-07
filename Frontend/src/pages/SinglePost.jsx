@@ -4,44 +4,45 @@ import axios from "axios";
 import { Link, NavLink } from "react-router-dom";
 import useUser from "../context/useUser";
 import timeAgo from "../utils/ExactTimeRead";
+import CommentBlog from "../components/CommentBlog";
+import useCommentModal from "../context/useCommentModal";
 
 const SinglePost = () => {
   const { postId } = useParams();
   const { user, setUser } = useUser();
   const [post, setPost] = useState(null);
+  const { isCommentPanelOpen, setIsCommentPanelOpen } = useCommentModal();
 
   useEffect(() => {
-  const fetchPostAndIncrementView = async () => {
-    if (!postId) return;
+    const fetchPostAndIncrementView = async () => {
+      if (!postId) return;
 
-    const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
-    try {
-      await axios.put(
-        `${import.meta.env.VITE_BASE_URL}/${postId}/view`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-    } catch (err) {
-      if (
-        err.response?.data?.message !== "You already viewed this blog"
-      ) {
-        console.error("Error incrementing view:", err);
+      try {
+        await axios.put(
+          `${import.meta.env.VITE_BASE_URL}/${postId}/view`,
+          {},
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+      } catch (err) {
+        if (err.response?.data?.message !== "You already viewed this blog") {
+          console.error("Error incrementing view:", err);
+        }
       }
-    }
 
-    try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/posts/${postId}`
-      );
-      setPost(res.data);
-    } catch (err) {
-      console.error("Error fetching post:", err);
-    }
-  };
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/posts/${postId}`
+        );
+        setPost(res.data);
+      } catch (err) {
+        console.error("Error fetching post:", err.message);
+      }
+    };
 
-  fetchPostAndIncrementView();
-}, [postId]);
+    fetchPostAndIncrementView();
+  }, [postId]);
 
   const fetchLike = async () => {
     try {
@@ -79,7 +80,6 @@ const SinglePost = () => {
     const token = localStorage.getItem("token");
 
     try {
-
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/users/${post?.postedBy?._id}/follow`,
         {}, // Empty body
@@ -90,20 +90,45 @@ const SinglePost = () => {
         }
       );
 
-      console.log("Follow response:", res.data);
-       setUser((prev) => ({
-      ...prev,
-      followings: [...prev.followings, post?.postedBy?._id],
-    }));
+      setUser((prev) => ({
+        ...prev,
+        followings: [...prev.followings, post?.postedBy?._id],
+      }));
     } catch (error) {
       console.error("Error following user:", error.response?.data || error);
     }
+  };
 
-     
-  }
+  const handleUnFollowButton = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/${
+          post?.postedBy?._id
+        }/unfollow`,
+        {}, // Empty body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // This loop skips the id which we want to unfollow
+      setUser((prev) => ({
+        ...prev,
+        followings: prev.followings.filter((id) => id !== post?.postedBy?._id),
+      }));
+    } catch (error) {
+      console.error("Error following user:", error.response?.data || error);
+    }
+  };
 
   return (
-    <div className="relative">
+    <div className="relative h-[100vh]">
+      {isCommentPanelOpen && <CommentBlog />}
+
       <div className="relative -left-10 mt-4">
         <div className="flex justify-around items-center">
           <div>
@@ -111,7 +136,7 @@ const SinglePost = () => {
               CodeCraft
             </Link>
           </div>
-          <div className="flex justify-between items-center gap-20 font-semibold text-lg">
+          <div className="flex justify-between items-center gap-20   text-[14px] relative right-[10%]">
             <NavLink
               to={"/blogs"}
               className="transition-all duration-300 hover:scale-110 hover:text-[#3a3a3a]"
@@ -149,6 +174,7 @@ const SinglePost = () => {
           </Link>
         </div>
       </div>
+
       <div className="p-6 max-w-3xl mx-auto relative h-[100vh]">
         <h1 className="text-xl font-bold mb-2 w-[80%]">{post.title}</h1>
         {user?._id === post?.postedBy?._id ? (
@@ -158,45 +184,60 @@ const SinglePost = () => {
             </button>
           </Link>
         ) : (
-          <button onClick={handleFollowButton} className="absolute top-[8%] right-[23%] tracking-wider border-[1px] border-blue-300 text-sm font-semibold p-3 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-blue-600 ">
-            {user?.followings ?.includes(post?.postedBy?._id) ? "Following" : "Follow"}
+          <button
+            onClick={() =>
+              user?.followings?.includes(post?.postedBy?._id)
+                ? handleUnFollowButton()
+                : handleFollowButton()
+            }
+            className="absolute top-5 right-[5%] tracking-wider border-[1px] border-blue-300 text-sm font-semibold p-3 px-6 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-blue-600 "
+          >
+            {user?.followings?.includes(post?.postedBy?._id)
+              ? "Following"
+              : "Follow"}
           </button>
         )}
-        <span className="right-[22%] top-[19%] absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[11px] m-2 tracking-wide">
-          {post.category}
-        </span>
-        <img
-          src={post.coverImage || "/default-cover.jpg"}
-          alt="Cover"
-          className="rounded-xl mb-6  h-[50%] w-[80%] object-cover mt-[7vh]"
-        />
-        <div className="flex gap-4 text-sm text-gray-600 mb-4">
-          <span onClick={fetchLike} className="mr-4 cursor-pointer">
-            <i
-              className={`mr-1 text-lg ${
-                post?.likedBy.includes(user?._id)
-                  ? "ri-heart-fill text-red-500"
-                  : "ri-heart-line"
-              }`}
-            ></i>
-            {post.likes}
+
+        <div className="relative h-[80vh] mt-20">
+          <span className="right-[20%] absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[11px] m-2 tracking-wide font-semibold">
+            {post.category}
           </span>
-          <span className="mr-4">
-            <Link to={`/posts/${post._id}/comments`}>
-              <i className="ri-message-line mr-1 text-lg"></i>
-              {post.comments.length}
-            </Link>
-          </span>
-          <span>
-            <i className="ri-time-line mr-1 text-lg"></i>
-            {timeAgo(post.createdAt)}
-          </span>
-          <span>
-            <i className="ri-eye-line mr-1 text-lg"></i>
-            {post.views}
-          </span>
+          <img
+            src={post.coverImage || "/default-cover.jpg"}
+            alt="Cover"
+            className="rounded-xl mb-6  h-[50%] w-[80%] object-cover mt-[7vh]"
+          />
+          <div className="flex gap-4 text-sm text-gray-600 mb-4">
+            <span onClick={fetchLike} className="mr-4 cursor-pointer">
+              <i
+                className={`mr-1 text-lg ${
+                  post?.likedBy.includes(user?._id)
+                    ? "ri-heart-fill text-red-500"
+                    : "ri-heart-line"
+                }`}
+              ></i>
+              {post.likes}
+            </span>
+            <span className="mr-4">
+              <Link
+                to={`/posts/${post._id}/comments`}
+                onClick={() => setIsCommentPanelOpen(true)}
+              >
+                <i className="ri-message-line mr-1 text-lg"></i>
+                Comment
+              </Link>
+            </span>
+            <span>
+              <i className="ri-time-line mr-1 text-lg"></i>
+              {timeAgo(post.createdAt)}
+            </span>
+            <span>
+              <i className="ri-eye-line mr-1 text-lg"></i>
+              {post.views}
+            </span>
+          </div>
+          <p className="text-lg leading-7">{post.content}</p>
         </div>
-        <p className="text-lg leading-7">{post.content}</p>
       </div>
     </div>
   );

@@ -30,8 +30,7 @@ module.exports.getSinglePost = async (req, res) => {
   try {
     const post = await PostModel.findById(req.params.postId).populate(
       "postedBy",
-      "fullname profilePicture isAdmin"
-    );
+      "fullname profilePicture isAdmin").populate("comments.commentedBy", "fullname profilePicture bio" );;
 
     if (!post) {
       return res.status(404).json({ message: "Post not found" });

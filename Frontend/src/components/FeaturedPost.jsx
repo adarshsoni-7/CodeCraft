@@ -9,7 +9,7 @@ const FeaturedPost = () => {
     <div className="p-6 mb-12">
       <h1 className="w-full text-3xl font-extrabold">Featured Blogs</h1>
       <div className="my-5 flex flex-wrap gap-8 justify-between">
-        {post.map((item) => (
+        {Array.isArray(post) && post.map((item) => (
           <Link to={`/posts/${item._id}`} key={item._id}>
             <div>
           <span className="absolute bg-white rounded-full   py-1 px-2 text-[#161515] text-[11px] m-2  tracking-wide">

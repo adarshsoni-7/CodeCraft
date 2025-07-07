@@ -41,7 +41,7 @@ function App() {
       <Route path={"/category/:categoryName"} element={<CategoryPost />}></Route> 
       <Route path={"/users/edit"} element={<EditUserPage />}></Route> 
       <Route path={"/posts/publish"} element={<CreateBlog />}></Route> 
-      <Route path={"/posts/:postId/comments"} element={<CommentBlog />}></Route> 
+      <Route path={"/posts/:postId/comments"} element={<CommentBlog isModal={true}/>}></Route> 
       <Route path={"/users/:userId/delete"} element={<DeleteAccount />}></Route> 
       <Route path={"/show/posts"} element={<ShowRemainingPosts />}></Route> 
 

@@ -25,7 +25,7 @@ const BlogPage = () => {
           CodeCraft
         </Link>
         <h1 className="text-8xl font-extrabold  my-5 tracking-tight">Blogs</h1>
-        <p className="text-lg font-semibold tracking-wide">
+        <p className="text-lg   tracking-wide">
           A place to read, write, and deepen your understanding
         </p>
       </div>
@@ -34,8 +34,8 @@ const BlogPage = () => {
         {" "}
         {/* Wrapper div for right side content */}
         {posts.map((post) => (
-          <Link to={`/posts/${post._id}`} className=" mb-6" key={post._id}>
-            <span className="absolute bg-white rounded-lg p-[4px] text-[10px] m-2 tracking-wide">
+          <div className=" mb-6" key={post._id}>
+            <span className="absolute bg-white rounded-lg p-[4px] text-[10px] m-2 tracking-wider font-semibold">
               {post.category}
             </span>
             <img
@@ -47,16 +47,10 @@ const BlogPage = () => {
               <p className="text-xl font-semibold my-2 mb-3 w-[55vh]">
                 {post.title}
               </p>
-              <div
-                className="flex  items-center 
-               "
-              >
-                <i className="ri-calendar-line"></i>
-                <span className="text-xs">
-                  {new Date(post.createdAt).toDateString()}
-                </span>
-                <i className="ri-time-line "></i>
-                <span className="text-xs">{timeAgo(post.createdAt)}</span>
+              <div  className="flex  items-center gap-2">              
+                <span className="text-xs">{timeAgo(post.createdAt)}</span> 
+                <i className="ri-eye-line "></i>  
+                <span className="text-xs">{post.views}</span>
               </div>
               <Link to={`/posts/${post._id}`}>
                 {" "}
@@ -68,7 +62,7 @@ const BlogPage = () => {
                 
               </Link>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

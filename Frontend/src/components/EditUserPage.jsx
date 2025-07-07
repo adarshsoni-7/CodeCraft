@@ -93,7 +93,8 @@ const EditUserPage = () => {
               Notification Preferences
             </h5>
             <DeleteAllBlogs />
-            <Link to={`/users`}><button className=" my-6   tracking-wide border border-red-400 text-lg font-semibold p-2 px-6 rounded-lg transition duration-300 hover:text-white hover:bg-red-600 disabled:opacity-60">Delete Account</button></Link>
+            <Link to={`/users/${user?._id}/delete`}><button className=" my-6   tracking-wide border border-red-400 text-lg font-semibold p-2 px-6 rounded-lg transition duration-300 hover:text-white hover:bg-red-600 disabled:opacity-60">Delete Account</button></Link><br />
+            <Link to={`/logout`}><button className=" my-6   tracking-wide border border-red-400 text-lg font-semibold p-2 px-6 rounded-lg transition duration-300 hover:text-white hover:bg-red-600 disabled:opacity-60">Log Out</button></Link>
           </div>
         </form>
        <Link to={"/users/profile"}><button className=" my-6   tracking-wide border border-red-400 text-lg font-semibold p-2 px-6 rounded-lg transition duration-300 hover:text-white hover:bg-red-600 disabled:opacity-60">Cancel</button></Link>  

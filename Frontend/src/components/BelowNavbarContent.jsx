@@ -9,13 +9,13 @@ const BelowNavbarContent = () => {
    
 
   return (
-    <div> 
+    <div className="overflow-x-hidden"> 
      {Array.isArray(post) && post
         .filter((post) => post.views > 1)
         .slice(0, 1)
         .map((post) => (
-          <Link to={`/posts/${post._id}`}>
-          <div className="bg-white p-4 absolute right-20 z-30 rounded-xl mt-6 mr-4">
+          <Link to={`/posts/${post._id}`} key={post?._id}> 
+          <div className="bg-white p-4 absolute right-20 top-28 z-30 rounded-xl mt-6 mr-4">
             <span className="absolute bg-white rounded-full py-1 px-2 text-[#403f3f] text-[11px] m-2 font-semibold tracking-wide">
               Trending
             </span>
@@ -28,7 +28,7 @@ const BelowNavbarContent = () => {
               src={post.coverImage}
               alt="random0=-design-img"
             />
-            <p className="text-[14px] font-semibold my-2 mb-3">{post.title}</p>
+            <p className="text-[14px] font-semibold my-2 mb-3 w-[60vh]">{post.title}</p>
             <div className="flex items-center justify-between">
                
               <span className="text-xs text-left ml-0 w-[30%]">
@@ -54,12 +54,11 @@ const BelowNavbarContent = () => {
         ))}
  
       
-      {post
-        .filter((post) => post.likes === 1)
+      {Array.isArray(post) && post.filter((post) => post.likes === 1)
         .slice(0, 1)
         .map((post) => (
-          <Link to={`/posts/${post._id}`}>
-          <div className="bg-white p-4 absolute right-20 z-20 rounded-xl mt-6 mr-4 rotate-[5deg]   translate-x-3 translate-y-2">
+          <Link to={`/posts/${post._id}`} key={post?._id}>
+          <div className="bg-white p-4 absolute right-20 top-[16%] z-20 rounded-xl mt-6 mr-4 rotate-[5deg]   translate-x-3 translate-y-2">
             <span className="absolute bg-white rounded-full py-1 px-2 text-[#403f3f] text-[11px] m-2 font-semibold tracking-wide">
               Trending
             </span>
@@ -72,7 +71,7 @@ const BelowNavbarContent = () => {
               src={post.coverImage}
               alt="random0=-design-img"
             />
-            <p className="text-[14px] font-semibold my-2 mb-3">{post.title}</p>
+            <p className="text-[14px] font-semibold my-2 mb-3 w-[60vh]">{post.title}</p>
            <div className="flex items-center justify-between">
                
               <span className="text-xs text-left ml-0 w-[30%]">
@@ -96,7 +95,7 @@ const BelowNavbarContent = () => {
           </div></Link>
            
         ))}
-      <div className="h-min-[40vh] bg-[#e6e2e2e8] p-4 flex justify-between items-center py-28 -mt-3 mb-36 relative -left-6  w-[98vw]">
+      <div className="h-min-[40vh] bg-[#e6e2e2e8] p-8  flex justify-between items-center py-32  mt-8 mb-36 w-[100vw]">
         <div>
           <h1 className="text-8xl font-extrabold w-[60%] my-5 tracking-tight">
             Global Stories & Articles

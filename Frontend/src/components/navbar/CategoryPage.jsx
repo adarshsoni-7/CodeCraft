@@ -99,7 +99,7 @@ const CategoryPage = () => {
                   ? filteredPosts
                   : filteredPosts.slice(0, 3)
                 ).map((post) => (
-                  <Link to={`/posts/${post._id}`} key={post._id} className="relative w-[60vh]">
+                  <div key={post._id} className="relative w-[60vh]">
                     <span className="absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[11px] m-2 tracking-wide shadow-md">
                       {post.category}
                     </span>
@@ -115,12 +115,11 @@ const CategoryPage = () => {
                           : post.title}
                       </p>
                       <div className="flex items-center gap-3 text-sm text-gray-600">
-                        <i className="ri-calendar-line"></i>
-                        <span>
-                          {new Date(post.createdAt).toDateString()}
-                        </span>
+                        
                         <i className="ri-time-line ml-3"></i>
-                        <span>{timeAgo(post.createdAt)}</span>
+                        <span>{timeAgo(post.createdAt) > "24" ? new Date(post.createdAt).toDateString().slice(3, 15) : timeAgo(post.createdAt)} </span>
+                         <i className="ri-eye-line ml-3"></i>
+                        <span>{post.views} </span>
                       </div>
                       <Link to={`/posts/${post._id}`}>
                         <button className="mt-4 tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-3 rounded-lg transition-all duration-700 hover:text-white hover:bg-black">
@@ -129,7 +128,7 @@ const CategoryPage = () => {
                         </button>
                       </Link>
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>

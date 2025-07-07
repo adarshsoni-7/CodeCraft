@@ -23,7 +23,7 @@ const ShowRemainingPosts = () => {
           }
         );
         const data = await res.data;
-        console.log(data);
+
         setUserPosts(data);
       } catch (err) {
         console.error("Error fetching user posts:", err);
@@ -46,48 +46,49 @@ const ShowRemainingPosts = () => {
         </h1>
       </div>
 
-      <div className="flex flex-wrap gap-14">
+      <div className="flex flex-wrap gap-14 p-4">
         {userPosts.map((article) => (
-               <Link to={`/posts/${article._id}`}>
-                <div
-                  key={article._id}
-                  className="border-[1px] border-gray-300 p-4 rounded-lg w-[350px] my-16"
-                >
-                  <span className="absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[11px] m-2 tracking-wide">
-                    {article?.category}
+          <Link to={`/posts/${article._id}`} key={article?._id}>
+            <div
+              key={article._id}
+              className="border-[1px] border-[#eae9e9e7] p-4 rounded-lg w-[450px] my-16"
+            >
+              <span className="absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[11px] m-2 tracking-wide">
+                {article?.category}
+              </span>
+              {article.coverImage && (
+                <img
+                  className="rounded-lg h-[350px] w-full object-cover"
+                  src={article.coverImage}
+                  alt="Cover"
+                />
+              )}
+              <div>
+                <p className="text-lg font-medium my-2 mb-3 w-full">
+                  {article?.title}
+                </p>
+                <div className="flex flex-wrap items-center justify-evenly">
+                  <i className="ri-heart-fill text-red-500"></i>
+                  <span className="text-xs text-left ml-0 w-1/4">
+                    {article.likes}
                   </span>
-                  {article.coverImage && (
-                    <img
-                      className="rounded-lg h-[250px] w-full object-cover"
-                      src={article.coverImage}
-                      alt="Cover"
-                    />
-                  )}
-                  <div>
-                    <p className="text-lg font-medium my-2 mb-3 w-full">
-                      {article?.title}
-                    </p>
-                    <div className="flex flex-wrap items-center justify-evenly">
-                      <i className="ri-heart-fill text-red-500"></i>
-                      <span className="text-xs text-left ml-0 w-1/4">
-                        {article.likes}
-                      </span>
-                      <i className="ri-eye-line"></i>
-                      <span className="text-xs text-left ml-0 w-1/6">
-                        {article.views}
-                      </span>
+                  <i className="ri-eye-line"></i>
+                  <span className="text-xs text-left ml-0 w-1/6">
+                    {article.views}
+                  </span>
 
-                      <span className="text-xs text-left ml-0 ">
-                        {timeAgo(article.createdAt)}
-                      </span>
-                    </div>
-                    <button className="my-4 tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-3 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
-                      Read More
-                      <i className="ri-arrow-right-fill text-[13px] ml-1"></i>
-                    </button>
-                  </div>
-                </div></Link>  
-              ))}
+                  <span className="text-xs text-left ml-0 ">
+                    {timeAgo(article.createdAt)}
+                  </span>
+                </div>
+                <button className="my-4 tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-3 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
+                  Read More
+                  <i className="ri-arrow-right-fill text-[13px] ml-1"></i>
+                </button>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

@@ -1,21 +1,18 @@
 import NavBar from "./navbar/NavBar";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useUser from "../context/useUser";
 import { useState } from "react";
 import timeAgo from "../utils/ExactTimeRead";
 import axios from "axios";
 import { useEffect } from "react";
-import usePost from "../context/usePost";
 
 const UserProfilePage = () => {
-  const [showBanner, setShowBanner] = useState(true);
-  const handleCloseBanner = () => {
-    setShowBanner(false);
-  };
   const { user } = useUser();
-  const {post} = usePost();
   const [userPosts, setUserPosts] = useState([]);
-  const totalViews = userPosts.reduce((acc, post) => acc + (post.viewedBy?.length || 0), 0);
+  const totalViews = userPosts.reduce(
+    (acc, post) => acc + (post.viewedBy?.length || 0),
+    0
+  );
 
   useEffect(() => {
     if (!user?._id) return;
@@ -42,64 +39,9 @@ const UserProfilePage = () => {
   }, [user?._id]);
   return (
     <div>
-      <div className="relative -top-4  w-screen mt-4">
-        {showBanner && (
-          <div className="text-xs p-2 text-center bg-black text-white font-semibold relative w-full left-0 tracking-wider">
-            Get weekly updates with our{" "}
-            <Link to={"/newsletter"} className="underline">
-              Newsletter
-            </Link>
-            <i
-              className="ri-close-large-line absolute right-4 text-xs cursor-pointer"
-              onClick={handleCloseBanner}
-            ></i>
-          </div>
-        )}
+      <NavBar />
 
-        <div className="flex justify-around items-end ">
-          <div>
-            <Link to={"/home"} className="text-3xl font-bold mb-24">
-              CodeCraft
-            </Link>
-          </div>
-
-          <div className="flex justify-between items-end gap-20 font-medium text-[14px] pt-6">
-            <NavLink
-              id="nav-link-hover"
-              to={"/blogs"}
-              className="relative  transition-all duration-300 hover:scale-110 hover:text-[#3a3a3a]"
-            >
-              Blogs{" "}
-            </NavLink>
-            <NavLink
-              to={"/categories"}
-              className="transition-all duration-300 hover:scale-110 hover:text-[#3a3a3a]"
-            >
-              Categories
-            </NavLink>
-            <NavLink
-              to={"/about"}
-              className="transition-all duration-300 hover:scale-110 hover:text-[#3a3a3a]"
-            >
-              About
-            </NavLink>
-            <NavLink
-              to={"/logout"}
-              className="transition-all duration-300 hover:scale-110 hover:text-[#3a3a3a]"
-            >
-              Sign Out
-            </NavLink>
-          </div>
-
-          <Link to={"/posts/publish"}>
-            <button className=" relative top-3 tracking-wide border-[1px] border-[#c2c1c1ec] text-[13px] font-semibold p-2 px-4 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
-              Publish Blog
-            </button>
-          </Link>
-        </div>
-      </div>
-
-      <div className="flex justify-between items-start px-16 ">
+      <div className="flex justify-between items-start px-16 mt-12 ">
         <div className="w-[50%] relative">
           <div className="flex">
             <div>
@@ -108,26 +50,33 @@ const UserProfilePage = () => {
                 src={user?.profilePicture}
                 alt=""
               />
-              
+
               <p className="font-semibold text-2xl  ">{user?.fullname}</p>
             </div>
 
-            <div className="mt-8 absolute left-[25%]">              
-                <span className="tracking-wide text-sm font-semibold mr-8 p-1 px-4 rounded-lg text-black ">Followers</span>{" "}
-                <span className="tracking-wide text-sm font-semibold mr-8 p-1 px-4 rounded-lg text-black ">Following</span>{" "} 
-                <span className="tracking-wide text-sm font-semibold mr-8 p-1 px-4 rounded-lg text-black ">Views Reached</span>{" "} 
-                 <div>
-                  <span className=" absolute font-medium text-[16px] left-[8%]  my-4 ">{user?.followers.length}</span>
-                  <span className=" absolute font-medium text-[16px] left-[39%] my-4  ">{user?.followings.length}</span>
-                  <span className=" absolute font-medium text-[16px] left-[74%]  my-4 ">{totalViews}</span>
-                   
-                  </div>     
+            <div className="mt-8 absolute left-[25%]">
+              <span className="tracking-wide text-sm font-semibold mr-8 p-1 px-4 rounded-lg text-black ">
+                Followers
+              </span>{" "}
+              <span className="tracking-wide text-sm font-semibold mr-8 p-1 px-4 rounded-lg text-black ">
+                Following
+              </span>{" "}
+              <span className="tracking-wide text-sm font-semibold mr-8 p-1 px-4 rounded-lg text-black ">
+                Views Reached
+              </span>{" "}
+              <div>
+                <span className=" absolute font-medium text-[16px] left-[8%]  my-4 ">
+                  {user?.followers.length}
+                </span>
+                <span className=" absolute font-medium text-[16px] left-[39%] my-4  ">
+                  {user?.followings.length}
+                </span>
+                <span className=" absolute font-medium text-[16px] left-[74%]  my-4 ">
+                  {totalViews}
+                </span>
+              </div>
             </div>
-             
-            
-            
           </div>
-          
 
           <Link to={"/users/edit"}>
             <h4 className="my-12 font-semibold text-lg p-2 px-6 border-[1px] border-gray-200 inline-block rounded-xl text-center">
@@ -138,16 +87,21 @@ const UserProfilePage = () => {
           <p className="text-sm text-gray-800 w-[40%] ">{user?.bio}</p>
         </div>
 
-        <div className="w-[50%]"> 
-          <h4 className="font-semibold text-2xl mt-6  ">Your Articles</h4>
-          {}
-          <div className="flex gap-[55vh] flex-wrap relative my-12">
+        <div className="w-[50%]">
+          <div className="my-2">
+            <h4 className="font-semibold text-2xl relative">Your Articles</h4>
+            {}
+            <Link to={"/posts/publish"}>
+              <button className="top-[16%] left-[75%] absolute tracking-wide border-[1px] border-[#c2c1c1ec] text-[14px] font-semibold p-2 px-5 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
+                Publish Blog
+              </button>
+            </Link>
+          </div>
+
+          <div className="flex gap-[55vh] flex-wrap relative top-28">
             {userPosts.slice(0, 2).map((article) => (
               <Link to={`/posts/${article._id}`} key={article._id}>
-                <div
-                  key={article._id}
-                  className="w-[50%] absolute"
-                >
+                <div key={article._id} className="w-[50%] absolute">
                   <span className="absolute bg-white rounded-full py-1 px-2 text-[#161515] text-[10px] m-2 tracking-wider z-20 font-semibold">
                     {article?.category}
                   </span>
@@ -175,7 +129,6 @@ const UserProfilePage = () => {
                       <span className="text-xs text-left ml-0 ">
                         {timeAgo(article.createdAt)}
                       </span>
-                      
                     </div>
                     <button className="my-4 tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-3 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
                       Read More
@@ -189,7 +142,7 @@ const UserProfilePage = () => {
             {userPosts.length > 2 && (
               <Link to={"/show/posts"}>
                 <button className="-top-20 -right-[2%] absolute my-4 tracking-wide border-[1px] border-[#c2c1c1ec] text-[12px] font-semibold p-2 px-4 rounded-lg transition-all duration-[.7s] hover:text-white hover:bg-black">
-                  View All Articles
+                  View All Blogs
                   <i className="ri-arrow-right-fill text-[13px] ml-1"></i>
                 </button>
               </Link>

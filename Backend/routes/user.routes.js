@@ -101,6 +101,10 @@ router.patch(
 router.delete("/:userId/delete", authMiddleware.authUser, UserController.deleteUser);
 
 
-router.post("/:userId/follow", authMiddleware.authUser, UserController.followUser)
+router.post("/:userId/follow", authMiddleware.authUser, UserController.followUser);
+
+
+router.post("/:userId/unfollow",  authMiddleware.authUser, UserController.unFollowUser);
+
 
 module.exports = router;
